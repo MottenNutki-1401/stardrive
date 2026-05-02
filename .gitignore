@@ -1,0 +1,22 @@
+# React
+node_modules/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Env files
+.env
+.env.*
+
+# Editor stuff
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
+
+# Logs
+*.log
