@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+body {
+  margin: 0;
+}
+
+.navbar {
+  padding: 0px 0px; /*space of logo and purple box corners */
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between; /* pushes box to right */
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* purple box */
+.header-box {
+  background: #4B2E83;
+  font-size: 28px;
+  color: white;
+  padding: 40px;
+  width: 60%;
+  
+  border-bottom-left-radius: 100px; /* curved corner */
+  
+  text-align: center;
+}
+
+.logo {
+  width: 200px; 
+  margin-left: 15px;
+ /* border: 2px solid red; */
+}
+.main-section {
+  display: flex;
+  align-items: center;
+   justify-content: flex-start; /* remove space-between */
+  gap: 250px; /* control spacing here */
+  margin-top: 0px;
+  padding: 10px 150px; /* spacing from edges */ 
+}
+
+/* button style */
+.join-btn {
+  background: #2d2dff;
+  color: white;
+  padding: 25px 100px;
+  border-radius: 10px;
+  border: 2px solid #00ffcc;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.yellow-box {
+  width: 75%;
+  height: 100px;
+  background: #f4b942;
+
+  border-top-right-radius: 150px;
+}
