@@ -1,8 +1,11 @@
 import logo from "../assets/logo.svg";
 import "../styles/landing.css";
 import Carousel from "../components/Carousel";
+import { useNavigate } from "react-router-dom";
 
 function LandingPage() {
+
+    const navigate = useNavigate(); 
   return (
     <div>
         <div className="navbar">
@@ -20,7 +23,7 @@ function LandingPage() {
                   {/* RIGHT → button */}
                   <button
                     className="join-btn"
-                    onClick={() => navigate("/home")}
+                    onClick={() => navigate("/next")}
                   >
                     Join Now
                   </button>

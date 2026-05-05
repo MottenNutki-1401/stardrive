@@ -1,0 +1,58 @@
+.page2 {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TITLE BOX */
+.title-box {
+  background: #e6b3b3;
+  padding: 20px 40px;
+  border-radius: 0 50px 50px 0;
+  width: fit-content;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+/* OPTIONS CONTAINER */
+.options {
+  display: flex;
+  margin-top: 70px;
+  gap: 60px;
+  justify-content: center;
+}
+
+/* CLICKABLE CARDS */
+.option-card {
+  width: 200px;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: transform 0.2s ease;
+}
+
+/* HOVER EFFECT */
+.option-card:hover {
+  transform: scale(1.05);
+}
+.footer {
+  position: relative;
+  margin-top: auto;
+}
+
+/* yellow shape */
+.yellow-box {
+  width: 60%;
+  height: 150px;
+  background: #f4b942;
+
+  border-top-right-radius: 150px;
+}
+
+/* logo on right */
+.footer-logo {
+  position: absolute;
+  right: 40px;
+  bottom: 0px;
+  width: 200px;
+   border: 2px solid red;
+}
