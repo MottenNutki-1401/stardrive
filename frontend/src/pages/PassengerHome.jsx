@@ -16,29 +16,46 @@ function PassengerHome() {
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
 
+  /* ROUTE STATE */
+  const [directions, setDirections] = useState(null);
+
   const pickupRef = useRef(null);
   const destinationRef = useRef(null);
 
-  const handlePlaceChanged = () => {
+  const handlePlaceChanged = async () => {
 
     const pickupPlace = pickupRef.current.getPlace();
     const destinationPlace = destinationRef.current.getPlace();
 
-    if (pickupPlace?.geometry) {
-      console.log(
-        "Pickup:",
-        pickupPlace.geometry.location.lat(),
-        pickupPlace.geometry.location.lng()
-      );
+    /* stop if both are not selected yet */
+    if (!pickupPlace?.geometry || !destinationPlace?.geometry) {
+      return;
     }
 
-    if (destinationPlace?.geometry) {
-      console.log(
-        "Destination:",
-        destinationPlace.geometry.location.lat(),
-        destinationPlace.geometry.location.lng()
-      );
-    }
+    /* GOOGLE DIRECTIONS SERVICE */
+    const directionsService =
+      new window.google.maps.DirectionsService();
+
+    /* GET ROUTE */
+    const results = await directionsService.route({
+      origin: pickupPlace.geometry.location,
+      destination: destinationPlace.geometry.location,
+      travelMode: window.google.maps.TravelMode.DRIVING,
+    });
+
+    /* SAVE ROUTE */
+    setDirections(results);
+
+    /* DISTANCE + TIME */
+    console.log(
+      "Distance:",
+      results.routes[0].legs[0].distance.text
+    );
+
+    console.log(
+      "Duration:",
+      results.routes[0].legs[0].duration.text
+    );
   };
 
   return (
@@ -51,7 +68,7 @@ function PassengerHome() {
       <div className="passenger-page">
 
         {/* MAP */}
-        <Map />
+        <Map directions={directions} />
 
         {/* OVERLAY */}
         <div className="overlay">

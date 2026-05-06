@@ -1,7 +1,13 @@
-import { GoogleMap } from "@react-google-maps/api";
-import mapTheme from "../styles/mapTheme";
+import {
+  GoogleMap,
+  DirectionsRenderer,
+} from "@react-google-maps/api";
 
-function Map() {
+import "../styles/mapTheme.js";
+import "../styles/map.css";
+
+
+function Map({ directions }) {
 
   const center = {
     lat: 14.8386,
@@ -10,17 +16,26 @@ function Map() {
 
   return (
     <GoogleMap
-      mapContainerStyle={{
-        width: "100%",
-        height: "100%",
-      }}
+      mapContainerClassName="google-map"
       center={center}
       zoom={13}
+    >
 
-      options={{
-      mapId: "450cede40856a4b2d67c950a",
-  }}
-    />
+      {/* DRAW ROUTE */}
+      {directions && (
+        <DirectionsRenderer
+          directions={directions}
+          options={{
+            polylineOptions: {
+              strokeColor: "#8B5CF6",
+              strokeWeight: 6,
+            },
+            suppressMarkers: false,
+          }}
+        />
+      )}
+
+    </GoogleMap>
   );
 }
 
