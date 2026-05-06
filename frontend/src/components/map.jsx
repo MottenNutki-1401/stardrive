@@ -1,7 +1,7 @@
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import { GoogleMap } from "@react-google-maps/api";
+import mapTheme from "../styles/mapTheme";
 
 function Map() {
-  const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
   const center = {
     lat: 14.8386,
@@ -9,13 +9,18 @@ function Map() {
   };
 
   return (
-    <LoadScript googleMapsApiKey={API_KEY}>
-      <GoogleMap
-        mapContainerStyle={{ width: "100%", height: "100%" }}
-        center={center}
-        zoom={13}
-      />
-    </LoadScript>
+    <GoogleMap
+      mapContainerStyle={{
+        width: "100%",
+        height: "100%",
+      }}
+      center={center}
+      zoom={13}
+
+      options={{
+      mapId: "450cede40856a4b2d67c950a",
+  }}
+    />
   );
 }
 
