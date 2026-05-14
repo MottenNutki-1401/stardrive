@@ -1,13 +1,19 @@
 import {
   GoogleMap,
   DirectionsRenderer,
+  OverlayView,
 } from "@react-google-maps/api";
 
 import "../styles/mapTheme.js";
 import "../styles/map.css";
 
+function Map({
+  directions,
+  drivers,
+  setSelectedDriver,
+}) {
 
-function Map({ directions }) {
+  console.log(drivers);
 
   const center = {
     lat: 14.8386,
@@ -34,6 +40,36 @@ function Map({ directions }) {
           }}
         />
       )}
+
+            {/* DRIVER MARKERS */}
+          {drivers.map((driver) => (
+
+              <OverlayView
+                key={driver.id}
+                position={{
+                  lat: parseFloat(driver.current_lat),
+                  lng: parseFloat(driver.current_lng),
+                }}
+
+                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+              >
+
+            <div className="driver-marker"
+             onClick={() => setSelectedDriver(driver)}
+            >
+
+              <img
+                src={driver.pf_pic}
+                alt="driver"
+              />
+
+              <div className="online-dot"></div>
+
+            </div>
+
+          </OverlayView>
+
+        ))}
 
     </GoogleMap>
   );

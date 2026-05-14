@@ -7,7 +7,12 @@ import {
 
 import Map from "../components/Map";
 
+import { supabase } from "../api/api";
+
 import "../styles/passengerhome.css";
+
+//driver click import
+import DriverModal from "../components/DriverModal";
 
 function PassengerHome() {
 
@@ -19,34 +24,35 @@ function PassengerHome() {
   /* ROUTE STATE */
   const [directions, setDirections] = useState(null);
 
+  /* DRIVERS */
+  const [drivers, setDrivers] = useState([]);
+  const [selectedDriver, setSelectedDriver] =
+  useState(null);
+
   const pickupRef = useRef(null);
   const destinationRef = useRef(null);
 
+  /* DRAW ROUTE */
   const handlePlaceChanged = async () => {
 
     const pickupPlace = pickupRef.current.getPlace();
     const destinationPlace = destinationRef.current.getPlace();
 
-    /* stop if both are not selected yet */
     if (!pickupPlace?.geometry || !destinationPlace?.geometry) {
       return;
     }
 
-    /* GOOGLE DIRECTIONS SERVICE */
     const directionsService =
       new window.google.maps.DirectionsService();
 
-    /* GET ROUTE */
     const results = await directionsService.route({
       origin: pickupPlace.geometry.location,
       destination: destinationPlace.geometry.location,
       travelMode: window.google.maps.TravelMode.DRIVING,
     });
 
-    /* SAVE ROUTE */
     setDirections(results);
 
-    /* DISTANCE + TIME */
     console.log(
       "Distance:",
       results.routes[0].legs[0].distance.text
@@ -58,6 +64,69 @@ function PassengerHome() {
     );
   };
 
+  /* FETCH DRIVERS */
+ const fetchDrivers = async () => {
+
+  const pickupPlace =
+    pickupRef.current.getPlace();
+
+  if (!pickupPlace?.geometry) {
+    return;
+  }
+
+  const pickupCoords = {
+    lat: pickupPlace.geometry.location.lat(),
+    lng: pickupPlace.geometry.location.lng(),
+  };
+
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("role", "driver")
+    .eq("online", true);
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  const updatedDrivers = await Promise.all(
+
+    data.map(async (driver) => {
+
+      const directionsService =
+        new window.google.maps.DirectionsService();
+
+      const result =
+        await directionsService.route({
+
+          origin: {
+            lat: parseFloat(driver.current_lat),
+            lng: parseFloat(driver.current_lng),
+          },
+
+          destination: pickupCoords,
+
+          travelMode:
+            window.google.maps.TravelMode.DRIVING,
+        });
+
+      const eta =
+        result.routes[0]
+        .legs[0]
+        .duration.text;
+
+      return {
+        ...driver,
+        eta_minutes: eta,
+      };
+    })
+  );
+
+  console.log(updatedDrivers);
+
+  setDrivers(updatedDrivers);
+};
   return (
 
     <LoadScript
@@ -68,7 +137,16 @@ function PassengerHome() {
       <div className="passenger-page">
 
         {/* MAP */}
-        <Map directions={directions} />
+       <Map
+          directions={directions}
+          drivers={drivers}
+          setSelectedDriver={setSelectedDriver}
+        />
+
+        <DriverModal
+          driver={selectedDriver}
+          onClose={() => setSelectedDriver(null)}
+        />
 
         {/* OVERLAY */}
         <div className="overlay">
@@ -99,10 +177,8 @@ function PassengerHome() {
             />
           </Autocomplete>
 
-          <button
-            onClick={() => console.log(pickup, destination)}
-          >
-            Get Fare
+          <button onClick={fetchDrivers}>
+            Get Nearby Drivers
           </button>
 
         </div>
