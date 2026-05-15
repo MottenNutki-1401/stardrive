@@ -7,7 +7,10 @@ import {
 
 import Map from "../components/Map";
 
-import { supabase } from "../api/api";
+import {
+  supabase,
+  predictRide
+} from "../api/api";
 
 import "../styles/passengerhome.css";
 
@@ -53,11 +56,45 @@ function PassengerHome() {
 
     setDirections(results);
 
-    console.log(
-      "Distance:",
-      results.routes[0].legs[0].distance.text
-    );
+    //logic pickup for passenger mapping
+        /* CURRENT USER */
+      const currentUser =
+        JSON.parse(
+          localStorage.getItem("user")
+        );
 
+      console.log(currentUser);
+
+      /* UPDATE PASSENGER LOCATION */
+      const { data, error } =
+        await supabase
+
+          .from("users")
+
+          .update({
+
+            current_lat:
+              pickupPlace
+              .geometry
+              .location
+              .lat(),
+
+            current_lng:
+              pickupPlace
+              .geometry
+              .location
+              .lng(),
+          })
+
+          .eq(
+            "username",
+            currentUser.username
+          )
+
+          .select();
+
+console.log(data);
+console.log(error);
     console.log(
       "Duration:",
       results.routes[0].legs[0].duration.text
@@ -111,23 +148,59 @@ function PassengerHome() {
             window.google.maps.TravelMode.DRIVING,
         });
 
-      const eta =
-        result.routes[0]
-        .legs[0]
-        .duration.text;
+              const eta =
+                result.routes[0]
+                .legs[0]
+                .duration.text;
 
-      return {
-        ...driver,
-        eta_minutes: eta,
-      };
-    })
-  );
+                  const etaNumber =
+            parseInt(eta);
 
-  console.log(updatedDrivers);
+          const distanceKm =
+            result.routes[0]
+            .legs[0]
+            .distance.value / 1000;
 
-  setDrivers(updatedDrivers);
-};
-  return (
+          const demand = 2;
+
+          const currentHour =
+            new Date().getHours();
+
+          /* AI BACKEND */
+          const aiData =
+            await predictRide(
+
+              distanceKm,
+              etaNumber,
+              demand,
+              currentHour
+            );
+                //intel sys logic
+                return {
+
+                  ...driver,
+
+                  eta_minutes:
+                    eta,
+
+                  suggested_fare:
+                    aiData.suggested_fare,
+
+                  acceptance_probability:
+                    aiData.acceptance_probability,
+
+                  status:
+                    aiData.status,
+                };
+
+              })
+            );
+
+            console.log(updatedDrivers);
+
+            setDrivers(updatedDrivers);
+          };
+            return (
 
     <LoadScript
       googleMapsApiKey={API_KEY}

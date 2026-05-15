@@ -8,12 +8,19 @@ import "../styles/mapTheme.js";
 import "../styles/map.css";
 
 function Map({
+
   directions,
-  drivers,
+
+  drivers = [],
+
+  passengers = [],
+
   setSelectedDriver,
+
 }) {
 
   console.log(drivers);
+  console.log(passengers);
 
   const center = {
     lat: 14.8386,
@@ -21,6 +28,7 @@ function Map({
   };
 
   return (
+
     <GoogleMap
       mapContainerClassName="google-map"
       center={center}
@@ -29,33 +37,67 @@ function Map({
 
       {/* DRAW ROUTE */}
       {directions && (
+
         <DirectionsRenderer
           directions={directions}
+
           options={{
+
             polylineOptions: {
+
               strokeColor: "#8B5CF6",
+
               strokeWeight: 6,
             },
+
             suppressMarkers: false,
           }}
         />
+
       )}
 
-            {/* DRIVER MARKERS */}
-          {drivers.map((driver) => (
+      {/* DRIVER MARKERS */}
+      {drivers
 
-              <OverlayView
-                key={driver.id}
-                position={{
-                  lat: parseFloat(driver.current_lat),
-                  lng: parseFloat(driver.current_lng),
-                }}
+        .filter(
 
-                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-              >
+          (driver) =>
 
-            <div className="driver-marker"
-             onClick={() => setSelectedDriver(driver)}
+            driver.current_lat &&
+
+            driver.current_lng
+        )
+
+        .map((driver) => (
+
+          <OverlayView
+
+            key={driver.id}
+
+            position={{
+
+              lat:
+                parseFloat(
+                  driver.current_lat
+                ),
+
+              lng:
+                parseFloat(
+                  driver.current_lng
+                ),
+            }}
+
+            mapPaneName={
+              OverlayView.OVERLAY_MOUSE_TARGET
+            }
+          >
+
+            <div
+              className="driver-marker"
+
+              onClick={() =>
+                setSelectedDriver?.(driver)
+              }
             >
 
               <img
@@ -69,7 +111,58 @@ function Map({
 
           </OverlayView>
 
-        ))}
+      ))}
+
+      {/* PASSENGER MARKERS */}
+      {passengers
+
+        .filter(
+
+          (passenger) =>
+
+            passenger.current_lat &&
+
+            passenger.current_lng
+        )
+
+        .map((passenger) => (
+
+          <OverlayView
+
+            key={passenger.id}
+
+            position={{
+
+              lat:
+                parseFloat(
+                  passenger.current_lat
+                ),
+
+              lng:
+                parseFloat(
+                  passenger.current_lng
+                ),
+            }}
+
+            mapPaneName={
+              OverlayView.OVERLAY_MOUSE_TARGET
+            }
+          >
+
+            <div className="driver-marker">
+
+              <img
+                src={passenger.pf_pic}
+                alt="passenger"
+              />
+
+              <div className="online-dot"></div>
+
+            </div>
+
+          </OverlayView>
+
+      ))}
 
     </GoogleMap>
   );

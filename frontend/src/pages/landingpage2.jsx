@@ -25,7 +25,14 @@ function LandingPage2() {
           src={driverImg}
           alt="driver"
           className="option-card"
-          onClick={() => navigate("/driver")}
+                    onClick={() =>
+            navigate("/login", {
+
+              state: {
+                role: "driver"
+              },
+            })
+          }
         />
 
         {/* PASSENGER */}
@@ -33,7 +40,14 @@ function LandingPage2() {
           src={passengerImg}
           alt="passenger"
           className="option-card"
-          onClick={() => navigate("/passenger")}
+          onClick={() =>
+            navigate("/login", {
+
+              state: {
+                role: "passenger"
+              },
+            })
+          }
         />
       </div>
 
