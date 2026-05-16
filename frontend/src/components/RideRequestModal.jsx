@@ -14,19 +14,19 @@ function RideRequestModal({
 
   return (
 
-    <div className="driver-modal">
+    <div className="driver-modal1">
 
       {/* TOP */}
-      <div className="driver-top">
+      <div className="driver-top1">
 
         <img
           src={request.passenger_pic}
           alt="passenger"
         />
 
-        <div className="driver-name">
+        <div className="driver-name1">
 
-          <div className="online-dot"></div>
+          <div className="online-dot1"></div>
 
           <h2>
             {request.passenger_name}
@@ -37,7 +37,7 @@ function RideRequestModal({
       </div>
 
       {/* INFO */}
-      <div className="driver-info">
+      <div className="driver-info1">
 
         <p>
           Pickup:
@@ -57,7 +57,7 @@ function RideRequestModal({
       </div>
 
       {/* BUTTONS */}
-      <div className="driver-bottom">
+      <div className="driver-bottom1">
 
         <button
           onClick={onAccept}
