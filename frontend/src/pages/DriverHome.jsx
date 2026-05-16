@@ -10,6 +10,9 @@ import { supabase }
 from "../api/api";
 
 import "../styles/passengerhome.css";
+//passsenger request
+import RideRequestModal
+from "../components/RideRequestModal";
 
 function DriverHome() {
 
@@ -48,7 +51,54 @@ function DriverHome() {
     setPassengers(data);
   };
 
-  return (
+
+      //ride request
+      const [rideRequest,
+      setRideRequest] =
+      useState(null);
+      //fetch request
+              const fetchRideRequests =
+          async () => {
+
+          const currentUser =
+            JSON.parse(
+              localStorage.getItem("user")
+            );
+
+          const { data, error } =
+            await supabase
+
+              .from("ride_requests")
+
+              .select("*")
+
+              .eq(
+                "driver_id",
+                currentUser.id
+              )
+
+              .eq(
+                "status",
+                "pending"
+              )
+
+              .single();
+
+          if (error) {
+
+            console.log(error);
+
+            return;
+          }
+
+          console.log(data);
+
+          setRideRequest(data);
+        };
+
+
+
+      return (
 
     <LoadScript
       googleMapsApiKey={API_KEY}
@@ -72,7 +122,11 @@ function DriverHome() {
           >
             See Nearby Passengers
           </button>
-
+                <button
+          onClick={fetchRideRequests}
+        >
+          Check Ride Requests
+        </button>
         </div>
 
       </div>

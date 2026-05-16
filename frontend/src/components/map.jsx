@@ -1,10 +1,13 @@
 import {
+
   GoogleMap,
+
   DirectionsRenderer,
+
   OverlayView,
+
 } from "@react-google-maps/api";
 
-import "../styles/mapTheme.js";
 import "../styles/map.css";
 
 function Map({
@@ -19,39 +22,30 @@ function Map({
 
 }) {
 
-  console.log(drivers);
-  console.log(passengers);
-
   const center = {
+
     lat: 14.8386,
+
     lng: 120.2842,
   };
 
   return (
 
     <GoogleMap
-      mapContainerClassName="google-map"
+
+      mapContainerClassName=
+        "google-map"
+
       center={center}
+
       zoom={13}
     >
 
-      {/* DRAW ROUTE */}
+      {/* ROUTE */}
       {directions && (
 
         <DirectionsRenderer
           directions={directions}
-
-          options={{
-
-            polylineOptions: {
-
-              strokeColor: "#8B5CF6",
-
-              strokeWeight: 6,
-            },
-
-            suppressMarkers: false,
-          }}
         />
 
       )}
@@ -88,15 +82,20 @@ function Map({
             }}
 
             mapPaneName={
-              OverlayView.OVERLAY_MOUSE_TARGET
+              OverlayView
+              .OVERLAY_MOUSE_TARGET
             }
           >
 
             <div
-              className="driver-marker"
+
+              className=
+                "driver-marker"
 
               onClick={() =>
-                setSelectedDriver?.(driver)
+                setSelectedDriver?.(
+                  driver
+                )
               }
             >
 
@@ -105,7 +104,10 @@ function Map({
                 alt="driver"
               />
 
-              <div className="online-dot"></div>
+              <div
+                className=
+                  "online-dot"
+              ></div>
 
             </div>
 
@@ -145,18 +147,25 @@ function Map({
             }}
 
             mapPaneName={
-              OverlayView.OVERLAY_MOUSE_TARGET
+              OverlayView
+              .OVERLAY_MOUSE_TARGET
             }
           >
 
-            <div className="driver-marker">
+            <div
+              className=
+                "driver-marker"
+            >
 
               <img
                 src={passenger.pf_pic}
                 alt="passenger"
               />
 
-              <div className="online-dot"></div>
+              <div
+                className=
+                  "online-dot"
+              ></div>
 
             </div>
 

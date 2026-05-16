@@ -1,0 +1,138 @@
+.ride-request {
+
+  position: absolute;
+
+  bottom: 40px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 360px;
+
+  background: white;
+
+  border-radius: 26px;
+
+  overflow: hidden;
+
+  z-index: 999;
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.2);
+
+  animation:
+    slideUp 0.3s ease;
+}
+
+/* TOP */
+.request-top {
+
+  background:
+    linear-gradient(
+      135deg,
+      #5b21b6,
+      #7c3aed
+    );
+
+  padding: 24px;
+
+  color: white;
+}
+
+.request-top h2 {
+
+  font-size: 24px;
+
+  margin-bottom: 6px;
+}
+
+/* INFO */
+.request-info {
+
+  padding: 22px;
+}
+
+.request-info p {
+
+  font-size: 17px;
+
+  margin-bottom: 14px;
+
+  color: #374151;
+
+  font-weight: 500;
+}
+
+/* BUTTONS */
+.request-buttons {
+
+  display: flex;
+
+  gap: 12px;
+
+  padding: 0 22px 24px;
+}
+
+.accept-btn,
+.reject-btn {
+
+  flex: 1;
+
+  border: none;
+
+  padding: 14px;
+
+  border-radius: 14px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.accept-btn {
+
+  background:
+    linear-gradient(
+      135deg,
+      #7c3aed,
+      #5b21b6
+    );
+
+  color: white;
+}
+
+.reject-btn {
+
+  background: #ef4444;
+
+  color: white;
+}
+
+.accept-btn:hover,
+.reject-btn:hover {
+
+  transform: scale(1.03);
+}
+
+@keyframes slideUp {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateX(-50%)
+      translateY(50px);
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+}
