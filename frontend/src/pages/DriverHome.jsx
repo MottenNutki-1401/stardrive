@@ -7,13 +7,18 @@ import {
   LoadScript,
 } from "@react-google-maps/api";
 
-import Map from "../components/Map";
+import Map
+from "../components/Map";
 
 import RideRequestModal
 from "../components/RideRequestModal";
 
-import { supabase }
-from "../api/api";
+import {
+  supabase
+} from "../api/api";
+
+import BottomNav
+from "../components/BottomNav";
 
 import "../styles/passengerhome.css";
 
@@ -26,29 +31,39 @@ function DriverHome() {
     .VITE_GOOGLE_MAPS_API_KEY;
 
   /* PASSENGERS */
-  const [passengers,
-    setPassengers] =
-    useState([]);
+  const [
+    passengers,
+    setPassengers
+  ] = useState([]);
 
   /* RIDE REQUEST */
-  const [rideRequest,
-    setRideRequest] =
-    useState(null);
+  const [
+    rideRequest,
+    setRideRequest
+  ] = useState(null);
 
   /* FETCH PASSENGERS */
   const fetchPassengers =
     async () => {
 
-    const { data, error } =
-      await supabase
+    const {
+      data,
+      error
+    } = await supabase
 
-        .from("users")
+      .from("users")
 
-        .select("*")
+      .select("*")
 
-        .eq("role", "passenger")
+      .eq(
+        "role",
+        "passenger"
+      )
 
-        .eq("online", true);
+      .eq(
+        "online",
+        true
+      );
 
     if (error) {
 
@@ -62,7 +77,96 @@ function DriverHome() {
     setPassengers(data);
   };
 
-  /* REALTIME RIDE REQUEST */
+  /* ACCEPT RIDE */
+  const acceptRide =
+    async () => {
+
+    if (!rideRequest) return;
+
+    /* UPDATE RIDE STATUS */
+    const {
+      error: rideError
+    } = await supabase
+
+      .from("ride_request")
+
+      .update({
+
+        status:
+          "accepted"
+      })
+
+      .eq(
+        "id",
+        rideRequest.id
+      );
+
+    console.log(rideError);
+
+    /* CREATE CONVERSATION */
+    const {
+      error: convoError
+    } = await supabase
+
+      .from("conversations")
+
+      .insert([{
+
+        ride_request_id:
+          rideRequest.id,
+
+        passenger_id:
+          rideRequest.passenger_id,
+
+        driver_id:
+          rideRequest.driver_id,
+
+        active:
+          true,
+      }]);
+
+    console.log(convoError);
+
+    alert(
+      "Ride accepted!"
+    );
+
+    setRideRequest(null);
+  };
+
+  /* REJECT RIDE */
+  const rejectRide =
+    async () => {
+
+    if (!rideRequest) return;
+
+    const {
+      error
+    } = await supabase
+
+      .from("ride_request")
+
+      .update({
+
+        status:
+          "rejected"
+      })
+
+      .eq(
+        "id",
+        rideRequest.id
+      );
+
+    console.log(error);
+
+    alert(
+      "Ride rejected!"
+    );
+
+    setRideRequest(null);
+  };
+
+  /* REALTIME REQUESTS */
   useEffect(() => {
 
     const currentUser =
@@ -115,8 +219,7 @@ function DriverHome() {
               currentUser.id
             );
 
-            /* ONLY SHOW
-               FOR THIS DRIVER */
+            /* ONLY THIS DRIVER */
             if (
 
               request.driver_id ===
@@ -125,14 +228,12 @@ function DriverHome() {
             ) {
 
               alert(
-                "MATCH FOUND"
+                "New Ride Request!"
               );
 
               console.log(
                 "MATCH FOUND"
               );
-
-              console.log(request);
 
               setRideRequest(
                 request
@@ -155,9 +256,13 @@ function DriverHome() {
 
     <LoadScript
 
-      googleMapsApiKey={API_KEY}
+      googleMapsApiKey={
+        API_KEY
+      }
 
-      libraries={libraries}
+      libraries={
+        libraries
+      }
 
     >
 
@@ -165,26 +270,24 @@ function DriverHome() {
 
         {/* MAP */}
         <Map
-          passengers={passengers}
+          passengers={
+            passengers
+          }
         />
 
         {/* REQUEST MODAL */}
         <RideRequestModal
 
-          request={rideRequest}
-
-          onAccept={() =>
-
-            console.log(
-              "accepted"
-            )
+          request={
+            rideRequest
           }
 
-          onReject={() =>
+          onAccept={
+            acceptRide
+          }
 
-            console.log(
-              "rejected"
-            )
+          onReject={
+            rejectRide
           }
         />
 
@@ -192,12 +295,16 @@ function DriverHome() {
         <div className="overlay">
 
           <button
-            onClick={fetchPassengers}
+            onClick={
+              fetchPassengers
+            }
           >
             See Nearby Passengers
           </button>
 
         </div>
+
+         <BottomNav />
 
       </div>
 
