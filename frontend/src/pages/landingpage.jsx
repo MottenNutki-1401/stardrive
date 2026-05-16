@@ -2,12 +2,28 @@ import logo from "../assets/logo.svg";
 import "../styles/landing.css";
 import Carousel from "../components/Carousel";
 import { useNavigate } from "react-router-dom";
+import bgVideo
+from "../assets/starmp.mp4";
 
 function LandingPage() {
 
     const navigate = useNavigate(); 
   return (
     <div>
+              <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="bg-video"
+        >
+
+          <source
+            src={bgVideo}
+            type="video/mp4"
+          />
+
+        </video>
         <div className="navbar">
           <img src={logo} alt="Stardrive Logo" className="logo" />
                 <div className="header-box">

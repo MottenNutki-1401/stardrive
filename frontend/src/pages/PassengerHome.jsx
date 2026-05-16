@@ -12,6 +12,8 @@ import {
   predictRide
 } from "../api/api";
 
+import BottomNav
+from "../components/BottomNav";
 import "../styles/passengerhome.css";
 
 //driver click import
@@ -299,7 +301,7 @@ console.log(error);
           <button onClick={fetchDrivers}>
             Get Nearby Drivers
           </button>
-
+         <BottomNav />
         </div>
 
       </div>

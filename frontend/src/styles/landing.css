@@ -7,10 +7,64 @@
 /* BODY */
 body {
   margin: 0;
-  background: #FFF9CC;
+
+  background: #000000;
+
+  overflow-x: hidden;
 
   animation:
     fadeIn 0.7s ease;
+}
+
+/* VIDEO */
+.bg-video {
+
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  z-index: -2;
+
+  opacity: 0.75;
+
+  filter:
+    brightness(0.7)
+    saturate(1.2);
+}
+
+/* DARK OVERLAY */
+body::before {
+
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(124,58,237,0.12),
+      transparent 45%
+    ),
+
+    radial-gradient(
+      circle at bottom right,
+      rgba(0,255,204,0.08),
+      transparent 40%
+    ),
+
+    rgba(0,0,0,0.25);
+
+  z-index: -1;
+
+  pointer-events: none;
 }
 
 /* NAVBAR */
@@ -18,16 +72,21 @@ body {
   padding: 0px 0px;
 
   display: flex;
+
   align-items: flex-start;
+
   justify-content: space-between;
 
   margin-bottom: 0;
+
   padding-bottom: 0;
 }
 
 /* PURPLE HEADER */
 .header-box {
-  background: #4B2E83;
+  position: relative;
+
+  background: #3a2467;
 
   font-size: 28px;
 
@@ -45,7 +104,28 @@ body {
     slideDown 0.8s ease;
 
   box-shadow:
-    0 8px 25px rgba(75,46,131,0.25);
+    0 8px 25px rgba(238, 85, 187, 0.25),
+
+    0 0 25px rgb(124, 58, 237),
+
+    0 0 50px rgba(124,58,237,0.15);
+}
+
+/* HEADER GLOW EDGE */
+.header-box::after {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  border-bottom-left-radius: 100px;
+
+  border:
+    1px solid rgba(255,255,255,0.08);
+
+  pointer-events: none;
 }
 
 /* LOGO */
@@ -56,6 +136,14 @@ body {
 
   animation:
     floatLogo 3s ease-in-out infinite;
+
+  filter:
+    drop-shadow(
+      0 0 12px rgba(255,255,255,0.2)
+    )
+    drop-shadow(
+      0 0 20px rgba(0,255,204,0.25)
+    );
 }
 
 /* MAIN SECTION */
@@ -78,25 +166,65 @@ body {
 
 /* BUTTON */
 .join-btn {
+  position: relative;
+
   background: #2d2dff;
 
   color: white;
 
   padding: 25px 100px;
 
-  border-radius: 10px;
+  border-radius: 16px;
 
-  border: 2px solid #00ffcc;
+  border:
+    2px solid #00ffcc;
 
   font-size: 16px;
 
+  font-weight: 700;
+
   cursor: pointer;
+
+  overflow: hidden;
 
   transition:
     0.25s ease;
 
   box-shadow:
-    0 0 0px transparent;
+    0 0 18px rgba(0,255,204,0.25),
+
+    0 0 40px rgba(45,45,255,0.18);
+}
+
+/* BUTTON SHIMMER */
+.join-btn::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 80%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      120deg,
+      transparent,
+      rgba(255,255,255,0.35),
+      transparent
+    );
+
+  transform: skewX(-25deg);
+
+  transition: 0.8s;
+}
+
+.join-btn:hover::before {
+
+  left: 130%;
 }
 
 .join-btn:hover {
@@ -106,12 +234,17 @@ body {
     scale(1.03);
 
   box-shadow:
-    0 0 18px rgba(0,255,204,0.7),
-    0 0 40px rgba(45,45,255,0.4);
+    0 0 20px rgba(0,255,204,0.7),
+
+    0 0 45px rgba(45,45,255,0.5),
+
+    0 0 80px rgba(0,255,204,0.2);
 }
 
 /* YELLOW BOX */
 .yellow-box {
+  position: relative;
+
   width: 75%;
 
   height: 100px;
@@ -121,10 +254,29 @@ body {
   border-top-right-radius: 150px;
 
   box-shadow:
-    0 -5px 25px rgba(244,185,66,0.35);
+    0 -5px 25px rgba(244,185,66,0.35),
+
+    0 0 40px rgba(244,185,66,0.12);
 
   animation:
     fadeUp 1.2s ease;
+}
+
+/* YELLOW GLOW EDGE */
+.yellow-box::after {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  border-top-right-radius: 150px;
+
+  border:
+    1px solid rgba(255,255,255,0.08);
+
+  pointer-events: none;
 }
 
 /* ANIMATIONS */
