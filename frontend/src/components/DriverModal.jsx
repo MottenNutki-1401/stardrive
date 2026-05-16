@@ -80,49 +80,66 @@ function DriverModal({
       return;
     }
 
+    //debug
+          console.log(
+        "SELECTED DRIVER:",
+        driver
+      );
+
+      console.log(
+        "PASSENGER:",
+        passenger
+      );
+
     /* INSERT REQUEST */
     const { error } =
       await supabase
 
         .from("ride_request")
 
-        .insert([{
+        
 
-          passenger_id:
-            passenger.id,
+       .insert([{
 
-          driver_id:
-            driver.id,
+        passenger_id:
+          passenger.id,
 
-          pickup:
+        passenger_name:
+          passenger.f_name,
 
-            passenger.current_lat +
+        passenger_pic:
+          passenger.pf_pic,
 
-            "," +
+        driver_id:
+          driver.id,
 
-            passenger.current_lng,
+        pickup:
+          passenger.current_lat +
 
-          destination:
-            "Passenger Destination",
+          "," +
 
-          offer:
-            Number(offer),
+          passenger.current_lng,
 
-          status:
-            "pending",
-        }]);
+        destination:
+          "Passenger Destination",
 
-    console.log(error);
+        offer:
+              Number(offer),
 
-    if (!error) {
+            status:
+              "pending",
+          }]);
+          console.log(error);
 
-      alert(
-        "Ride request sent!"
-      );
+          if (!error) {
 
-      onClose();
-    }
-  };
+            alert(
+              "Ride request sent!"
+            );
+
+            onClose();
+          }
+        };
 
   return (
 

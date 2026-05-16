@@ -1,4 +1,7 @@
-import { useState } from "react";
+import {
+  useState,
+  useEffect
+} from "react";
 
 import {
   LoadScript,
@@ -6,13 +9,15 @@ import {
 
 import Map from "../components/Map";
 
+import RideRequestModal
+from "../components/RideRequestModal";
+
 import { supabase }
 from "../api/api";
 
 import "../styles/passengerhome.css";
-//passsenger request
-import RideRequestModal
-from "../components/RideRequestModal";
+
+const libraries = ["places"];
 
 function DriverHome() {
 
@@ -21,8 +26,14 @@ function DriverHome() {
     .VITE_GOOGLE_MAPS_API_KEY;
 
   /* PASSENGERS */
-  const [passengers, setPassengers] =
+  const [passengers,
+    setPassengers] =
     useState([]);
+
+  /* RIDE REQUEST */
+  const [rideRequest,
+    setRideRequest] =
+    useState(null);
 
   /* FETCH PASSENGERS */
   const fetchPassengers =
@@ -51,59 +62,102 @@ function DriverHome() {
     setPassengers(data);
   };
 
+  /* REALTIME RIDE REQUEST */
+  useEffect(() => {
 
-      //ride request
-      const [rideRequest,
-      setRideRequest] =
-      useState(null);
-      //fetch request
-              const fetchRideRequests =
-          async () => {
+    const currentUser =
+      JSON.parse(
+        localStorage.getItem("user")
+      );
 
-          const currentUser =
-            JSON.parse(
-              localStorage.getItem("user")
+    console.log(
+      "CURRENT DRIVER:",
+      currentUser
+    );
+
+    const channel =
+      supabase
+
+        .channel(
+          "ride-request-channel"
+        )
+
+        .on(
+
+          "postgres_changes",
+
+          {
+
+            event: "INSERT",
+
+            schema: "public",
+
+            table: "ride_request",
+          },
+
+          (payload) => {
+
+            console.log(
+              "REALTIME PAYLOAD:",
+              payload
             );
 
-          const { data, error } =
-            await supabase
+            const request =
+              payload.new;
 
-              .from("ride_requests")
+            console.log(
+              "REQUEST DRIVER:",
+              request.driver_id
+            );
 
-              .select("*")
+            console.log(
+              "CURRENT USER:",
+              currentUser.id
+            );
 
-              .eq(
-                "driver_id",
-                currentUser.id
-              )
+            /* ONLY SHOW
+               FOR THIS DRIVER */
+            if (
 
-              .eq(
-                "status",
-                "pending"
-              )
+              request.driver_id ===
+              currentUser.id
 
-              .single();
+            ) {
 
-          if (error) {
+              alert(
+                "MATCH FOUND"
+              );
 
-            console.log(error);
+              console.log(
+                "MATCH FOUND"
+              );
 
-            return;
+              console.log(request);
+
+              setRideRequest(
+                request
+              );
+            }
           }
+        )
 
-          console.log(data);
+        .subscribe();
 
-          setRideRequest(data);
-        };
+    return () => {
 
+      supabase
+        .removeChannel(channel);
+    };
 
+  }, []);
 
-      return (
+  return (
 
     <LoadScript
+
       googleMapsApiKey={API_KEY}
 
-      libraries={["places"]}
+      libraries={libraries}
 
     >
 
@@ -114,6 +168,26 @@ function DriverHome() {
           passengers={passengers}
         />
 
+        {/* REQUEST MODAL */}
+        <RideRequestModal
+
+          request={rideRequest}
+
+          onAccept={() =>
+
+            console.log(
+              "accepted"
+            )
+          }
+
+          onReject={() =>
+
+            console.log(
+              "rejected"
+            )
+          }
+        />
+
         {/* OVERLAY */}
         <div className="overlay">
 
@@ -122,11 +196,7 @@ function DriverHome() {
           >
             See Nearby Passengers
           </button>
-                <button
-          onClick={fetchRideRequests}
-        >
-          Check Ride Requests
-        </button>
+
         </div>
 
       </div>

@@ -1,4 +1,4 @@
-import "../styles/drivermodal.css";
+import "../styles/riderequestmodal.css";
 
 function RideRequestModal({
 
@@ -7,7 +7,7 @@ function RideRequestModal({
   onAccept,
 
   onReject,
-s
+
 }) {
 
   if (!request) return null;
@@ -16,19 +16,37 @@ s
 
     <div className="driver-modal">
 
+      {/* TOP */}
       <div className="driver-top">
 
-        <h2>
-          New Ride Request
-        </h2>
+        <img
+          src={request.passenger_pic}
+          alt="passenger"
+        />
+
+        <div className="driver-name">
+
+          <div className="online-dot"></div>
+
+          <h2>
+            {request.passenger_name}
+          </h2>
+
+        </div>
 
       </div>
 
+      {/* INFO */}
       <div className="driver-info">
 
         <p>
-          Passenger ID:
-          {request.passenger_id}
+          Pickup:
+          {request.pickup}
+        </p>
+
+        <p>
+          Destination:
+          {request.destination}
         </p>
 
         <p>
@@ -36,13 +54,9 @@ s
           ₱{request.offer}
         </p>
 
-        <p>
-          Status:
-          {request.status}
-        </p>
-
       </div>
 
+      {/* BUTTONS */}
       <div className="driver-bottom">
 
         <button
