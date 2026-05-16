@@ -48,7 +48,10 @@ function RideRequestModal({
           Destination:
           {request.destination}
         </p>
-
+            <p>
+            Total Trip Distance:
+            {request.trip_distance} km
+             </p>
         <p>
           Offer:
           ₱{request.offer}

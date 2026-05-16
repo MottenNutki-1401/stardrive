@@ -55,6 +55,32 @@ function PassengerHome() {
     });
 
     setDirections(results);
+    //trip data
+
+    /* SAVE TRIP DATA */
+        localStorage.setItem(
+
+          "trip_data",
+
+          JSON.stringify({
+
+            pickup:
+
+              pickupPlace
+                .formatted_address,
+
+            destination:
+
+              destinationPlace
+                .formatted_address,
+
+            trip_distance:
+
+              results.routes[0]
+              .legs[0]
+              .distance.text,
+          })
+        );
 
     //logic pickup for passenger mapping
         /* CURRENT USER */
@@ -161,6 +187,22 @@ console.log(error);
             .legs[0]
             .distance.value / 1000;
 
+
+            /* PASSENGER TRIP DISTANCE */
+            const passengerTripKm =
+
+              directions.routes[0]
+              .legs[0]
+              .distance.value / 1000;
+
+            /* TOTAL DISTANCE */
+            const totalDistance =
+
+              (
+                distanceKm +
+                passengerTripKm
+              ).toFixed(2);
+
           const demand = 2;
 
           const currentHour =
@@ -191,6 +233,10 @@ console.log(error);
 
                   status:
                     aiData.status,
+
+                    //trip ditance for driver side reference
+                   trip_distance:
+                  Number(totalDistance),
                 };
 
               })

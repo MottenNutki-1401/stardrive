@@ -4,63 +4,197 @@
   box-sizing: border-box;
 }
 
-
+/* BODY */
 body {
   margin: 0;
   background: #FFF9CC;
+
+  animation:
+    fadeIn 0.7s ease;
 }
 
+/* NAVBAR */
 .navbar {
-  padding: 0px 0px; /*space of logo and purple box corners */
+  padding: 0px 0px;
+
   display: flex;
   align-items: flex-start;
-  justify-content: space-between; /* pushes box to right */
+  justify-content: space-between;
+
   margin-bottom: 0;
   padding-bottom: 0;
 }
 
-/* purple box */
+/* PURPLE HEADER */
 .header-box {
   background: #4B2E83;
+
   font-size: 28px;
+
   color: white;
+
   padding: 40px;
+
   width: 60%;
-  
-  border-bottom-left-radius: 100px; /* curved corner */
-  
+
+  border-bottom-left-radius: 100px;
+
   text-align: center;
+
+  animation:
+    slideDown 0.8s ease;
+
+  box-shadow:
+    0 8px 25px rgba(75,46,131,0.25);
 }
 
+/* LOGO */
 .logo {
-  width: 200px; 
+  width: 200px;
+
   margin-left: 15px;
- /* border: 2px solid red; */
+
+  animation:
+    floatLogo 3s ease-in-out infinite;
 }
+
+/* MAIN SECTION */
 .main-section {
   display: flex;
+
   align-items: center;
-   justify-content: flex-start; /* remove space-between */
-  gap: 250px; /* control spacing here */
+
+  justify-content: flex-start;
+
+  gap: 250px;
+
   margin-top: 0px;
-  padding: 10px 150px; /* spacing from edges */ 
+
+  padding: 10px 150px;
+
+  animation:
+    fadeUp 1s ease;
 }
 
-/* button style */
+/* BUTTON */
 .join-btn {
   background: #2d2dff;
+
   color: white;
+
   padding: 25px 100px;
+
   border-radius: 10px;
+
   border: 2px solid #00ffcc;
+
   font-size: 16px;
+
   cursor: pointer;
+
+  transition:
+    0.25s ease;
+
+  box-shadow:
+    0 0 0px transparent;
 }
 
+.join-btn:hover {
+
+  transform:
+    translateY(-4px)
+    scale(1.03);
+
+  box-shadow:
+    0 0 18px rgba(0,255,204,0.7),
+    0 0 40px rgba(45,45,255,0.4);
+}
+
+/* YELLOW BOX */
 .yellow-box {
   width: 75%;
+
   height: 100px;
+
   background: #f4b942;
 
   border-top-right-radius: 150px;
+
+  box-shadow:
+    0 -5px 25px rgba(244,185,66,0.35);
+
+  animation:
+    fadeUp 1.2s ease;
+}
+
+/* ANIMATIONS */
+
+@keyframes fadeIn {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(-40px);
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(40px);
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes floatLogo {
+
+  0% {
+
+    transform:
+      translateY(0px);
+  }
+
+  50% {
+
+    transform:
+      translateY(-8px);
+  }
+
+  100% {
+
+    transform:
+      translateY(0px);
+  }
 }

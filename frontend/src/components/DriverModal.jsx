@@ -48,7 +48,13 @@ function DriverModal({
         localStorage
           .getItem("user")
       );
-
+       //trip data
+       const tripData =
+          JSON.parse(
+            localStorage.getItem(
+              "trip_data"
+            )
+          );
     /* GET UPDATED PASSENGER */
     const {
 
@@ -113,15 +119,15 @@ function DriverModal({
         driver_id:
           driver.id,
 
-        pickup:
-          passenger.current_lat +
+          //format geolocation coordinates
+                  pickup:
+                    tripData.pickup,
 
-          "," +
+                  destination:
+                    tripData.destination,
 
-          passenger.current_lng,
-
-        destination:
-          "Passenger Destination",
+                  trip_distance:
+                    driver.trip_distance,
 
         offer:
               Number(offer),

@@ -14,16 +14,25 @@
   overflow: hidden;
 
   z-index: 100;
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,0.25);
+
+  animation:
+    modalPop1 0.25s ease;
 }
 
+/* TOP */
 .driver-top1 {
   background: #135761;
 
-  padding: 20px;
+  padding: 24px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  position: relative;
 }
 
 .driver-top1 img {
@@ -44,6 +53,7 @@
 
   transition: 0.3s ease;
 }
+
 .driver-name1 {
   position: relative;
 
@@ -54,6 +64,14 @@
   gap: 8px;
 
   color: white;
+}
+
+.driver-name1 h2,
+.driver-name1 h3 {
+  font-size: 24px;
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
 }
 
 .online-dot1 {
@@ -76,21 +94,50 @@
   border: 2px solid white;
 }
 
+/* INFO */
 .driver-info1 {
-  padding: 25px;
+  padding: 28px 25px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #ffffff,
+      #f6ffff
+    );
 }
 
 .driver-info1 h2 {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+
+  font-size: 24px;
+
+  color: #135761;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .driver-info1 p {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 17px;
 
-  margin-bottom: 20px;
+  font-weight: 400;
+
+  color: #444;
+
+  margin-bottom: 16px;
+
+  line-height: 1.5;
 }
 
+/* LABELS */
+.driver-info1 strong {
+  color: #111;
+
+  font-weight: 700;
+}
+
+/* BOTTOM */
 .driver-bottom1 {
   background: #f9bb3d;
 
@@ -100,7 +147,7 @@
   justify-content: space-between;
   align-items: center;
 
-  
+  gap: 14px;
 }
 
 .offer-box1 {
@@ -109,16 +156,29 @@
   gap: 10px;
 }
 
+.offer-box1 span {
+  font-weight: 700;
+
+  color: #135761;
+}
+
 .offer-box1 input {
   width: 90px;
 
   border: none;
 
-  border-radius: 10px;
+  border-radius: 12px;
 
-  padding: 8px;
+  padding: 10px;
 
-  font-weight: bold;
+  font-size: 16px;
+
+  font-weight: 700;
+
+  outline: none;
+
+  box-shadow:
+    inset 0 2px 6px rgba(0,0,0,0.08);
 }
 
 .driver-bottom1 button {
@@ -127,20 +187,31 @@
   background: black;
   color: white;
 
-  padding: 12px 20px;
+  padding: 13px 22px;
 
-  border-radius: 12px;
+  border-radius: 14px;
 
-  font-weight: bold;
+  font-weight: 700;
+
+  font-size: 14px;
 
   cursor: pointer;
+
+  transition: 0.2s ease;
 }
 
+.driver-bottom1 button:hover {
+  transform: scale(1.04);
+
+  background: #1f1f1f;
+}
+
+/* CLOSE */
 .close-btn1 {
   position: absolute;
 
-  top: 10px;
-  right: 10px;
+  top: 12px;
+  right: 14px;
 
   border: none;
 
@@ -148,12 +219,18 @@
 
   color: white;
 
-  font-size: 20px;
+  font-size: 22px;
 
   cursor: pointer;
+
+  transition: 0.2s ease;
 }
 
+.close-btn1:hover {
+  transform: rotate(90deg);
+}
 
+/* ETA */
 .eta-text {
   display: flex;
   align-items: center;
@@ -164,7 +241,25 @@
   width: 22px;
   height: 22px;
 
-  align-items: center;
-
   object-fit: contain;
+}
+
+/* ANIMATION */
+@keyframes modalPop1 {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(-50%)
+      translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
 }
